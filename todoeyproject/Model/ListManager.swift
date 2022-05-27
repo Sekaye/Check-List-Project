@@ -9,6 +9,8 @@ import UIKit
 
 struct ListManager{
     
+
+    
     static func initializeData(){
         
     }
