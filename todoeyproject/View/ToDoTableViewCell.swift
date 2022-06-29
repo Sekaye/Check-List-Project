@@ -24,3 +24,6 @@ class ToDoTableViewCell: UITableViewCell {
     }
     
 }
+
+//design notes
+// I'm thinking that you make each cell rounded on the edges, and also give them a scaling flow layout like that of the clothing carousel

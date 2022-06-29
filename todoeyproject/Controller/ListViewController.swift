@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class ListViewController: UITableViewController {
     
-    var itemArray: [Item] = []
+    var itemArray: [Items] = []
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let dataFilePath = FileManager
         .default
@@ -18,6 +21,7 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(dataFilePath)
                 
         navigationController?.navigationBar.backgroundColor = UIColor.systemCyan
         tableView.register(UINib(nibName: K.nibName, bundle: nil), forCellReuseIdentifier: K.cellID)
@@ -25,7 +29,7 @@ class ListViewController: UITableViewController {
 //            itemArray = items
 //        }
         
-        loadItems()
+//        loadItems()
         
     }
 
@@ -79,14 +83,20 @@ extension ListViewController {
 extension ListViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
+        
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add New Lane Item", message: "", preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Add", style: .default) { action in
+        let action = UIAlertAction(title: "Add", style: .default) { action
+            in
             //what happens once the add button is clicked
+            
             if let text = textField.text {
-                self.itemArray.append(Item(title: text, done: false))
+                let newItem = Items(context: self.context)
+                newItem.title = text
+                newItem.done = false
+                self.itemArray.append(newItem)
                 ListManager.emptyCells()
                 self.saveItems()
                 self.tableView.reloadData()
@@ -106,24 +116,22 @@ extension ListViewController {
     
     //encoder
     func saveItems() {
-        let encoder = PropertyListEncoder()
         do {
-        let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            try context.save()
         } catch {
-            print ("error encoding array\(error)")
+            print("error saving context \(error)")
         }
     }
     
     //decoder
-    func loadItems(){
-        if let data = try? Data(contentsOf: dataFilePath!){ //there may not always be data to decode
-            let decoder = PropertyListDecoder()
-            do {
-                itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print("error decoding array\(error)")
-            }
-        }
-    }
+//    func loadItems(){
+//        if let data = try? Data(contentsOf: dataFilePath!){ //there may not always be data to decode
+//            let decoder = PropertyListDecoder()
+//            do {
+//                itemArray = try decoder.decode([Item].self, from: data)
+//            } catch {
+//                print("error decoding array\(error)")
+//            }
+//        }
+//    }
 }

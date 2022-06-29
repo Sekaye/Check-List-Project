@@ -18,7 +18,7 @@
 		33888B4D283C740F0031C2FE /* ToDoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33888B4B283C740F0031C2FE /* ToDoTableViewCell.swift */; };
 		33888B4E283C740F0031C2FE /* ToDoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33888B4C283C740F0031C2FE /* ToDoTableViewCell.xib */; };
 		33888B50283C7C830031C2FE /* ListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33888B4F283C7C830031C2FE /* ListManager.swift */; };
-		33888B5228404AE20031C2FE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33888B5128404AE20031C2FE /* Item.swift */; };
+		33888B582841898C0031C2FE /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 33888B562841898C0031C2FE /* DataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +35,7 @@
 		33888B4B283C740F0031C2FE /* ToDoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCell.swift; sourceTree = "<group>"; };
 		33888B4C283C740F0031C2FE /* ToDoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoTableViewCell.xib; sourceTree = "<group>"; };
 		33888B4F283C7C830031C2FE /* ListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListManager.swift; sourceTree = "<group>"; };
-		33888B5128404AE20031C2FE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		33888B572841898C0031C2FE /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +83,7 @@
 			children = (
 				33888B44283766C20031C2FE /* Constants.swift */,
 				33888B4F283C7C830031C2FE /* ListManager.swift */,
-				33888B5128404AE20031C2FE /* Item.swift */,
+				33888B562841898C0031C2FE /* DataModel.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -193,8 +193,8 @@
 				33888B322837666C0031C2FE /* ListViewController.swift in Sources */,
 				33888B382837666C0031C2FE /* ToDoeyProject.xcdatamodeld in Sources */,
 				33888B50283C7C830031C2FE /* ListManager.swift in Sources */,
-				33888B5228404AE20031C2FE /* Item.swift in Sources */,
 				33888B4D283C740F0031C2FE /* ToDoTableViewCell.swift in Sources */,
+				33888B582841898C0031C2FE /* DataModel.xcdatamodeld in Sources */,
 				33888B2E2837666C0031C2FE /* AppDelegate.swift in Sources */,
 				33888B302837666C0031C2FE /* SceneDelegate.swift in Sources */,
 			);
@@ -427,6 +427,16 @@
 			);
 			currentVersion = 33888B372837666C0031C2FE /* ToDoeyProject.xcdatamodel */;
 			path = ToDoeyProject.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		33888B562841898C0031C2FE /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				33888B572841898C0031C2FE /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 33888B572841898C0031C2FE /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
