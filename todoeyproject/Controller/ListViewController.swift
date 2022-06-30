@@ -10,7 +10,9 @@ import CoreData
 
 class ListViewController: UITableViewController {
     
-    var itemArray: [Items] = []
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    var itemArray: [Item] = []
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -21,21 +23,31 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configuration()
         print(dataFilePath)
-                
         navigationController?.navigationBar.backgroundColor = UIColor.systemCyan
-        tableView.register(UINib(nibName: K.nibName, bundle: nil), forCellReuseIdentifier: K.cellID)
-//        if let items = defaults.array(forKey: K.defaultKey) as? [Item] {
-//            itemArray = items
-//        }
-        
-//        loadItems()
+        loadItems()
+
         
     }
-
 }
 
-// MARK: - List Data Source Methods
+// MARK: - Search Bar Control
+extension ListViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+                
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+                
+        loadItems(with: request)
+        
+    }
+}
+
+// MARK: - List Data Source Control
 extension ListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellID, for: indexPath)
@@ -44,12 +56,12 @@ extension ListViewController {
         cell.itemLabel.text = ""
         cell.itemLabel.text = item.title
         cell.checkImage.isHidden = item.done ? false : true //does the same thing as below
-//
-//        if item.done {
-//            cell.checkImage.isHidden = false
-//        } else {
-//            cell.checkImage.isHidden = true
-//        }
+        //
+        //        if item.done {
+        //            cell.checkImage.isHidden = false
+        //        } else {
+        //            cell.checkImage.isHidden = true
+        //        }
         
         ListManager.saveCell(cell: cell)
         return cell
@@ -60,7 +72,7 @@ extension ListViewController {
     }
 }
 
-// MARK: - Changes When Items Are Selected
+// MARK: - Item Selection and Related Methods
 extension ListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -79,7 +91,7 @@ extension ListViewController {
     
 }
 
-// MARK: - Add items
+// MARK: - Add Item Control
 extension ListViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -93,7 +105,7 @@ extension ListViewController {
             //what happens once the add button is clicked
             
             if let text = textField.text {
-                let newItem = Items(context: self.context)
+                let newItem = Item(context: self.context)
                 newItem.title = text
                 newItem.done = false
                 self.itemArray.append(newItem)
@@ -111,10 +123,9 @@ extension ListViewController {
     }
 }
 
-// MARK: - Utility functions
+// MARK: - Utility Methods
 extension ListViewController {
     
-    //encoder
     func saveItems() {
         do {
             try context.save()
@@ -123,15 +134,24 @@ extension ListViewController {
         }
     }
     
-    //decoder
-//    func loadItems(){
-//        if let data = try? Data(contentsOf: dataFilePath!){ //there may not always be data to decode
-//            let decoder = PropertyListDecoder()
-//            do {
-//                itemArray = try decoder.decode([Item].self, from: data)
-//            } catch {
-//                print("error decoding array\(error)")
-//            }
-//        }
-//    }
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()){
+        do{
+            itemArray = try context.fetch(request)
+        }
+        catch {
+            print("error fetching data from context \(error)")
+        }
+    }
+    
+    //configuration on loading
+    func configuration(){
+        
+        //register searchbar delegate
+        searchBar.delegate = self
+        
+        //register custom table cells
+        tableView.register(UINib(nibName: K.nibName, bundle: nil), forCellReuseIdentifier: K.cellID)
+        
+
+    }
 }
