@@ -14,6 +14,14 @@ class ListViewController: UITableViewController {
     
     var itemArray: [Item] = []
     
+    var selectedCategory: ItemCategory? {
+        didSet { //called as soon as selectedCategory is given a value
+            print("ERROR FLAG 1")
+            print(selectedCategory?.name)
+            loadItems() //ensures items are loaded only once selectedCategory has a value
+        }
+    }
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let dataFilePath = FileManager
@@ -25,9 +33,8 @@ class ListViewController: UITableViewController {
         super.viewDidLoad()
         configuration()
         print(dataFilePath)
-        navigationController?.navigationBar.backgroundColor = UIColor.systemCyan
         loadItems()
-
+        
         
     }
 }
@@ -38,12 +45,21 @@ extension ListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
         
-        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-                
-        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-                
-        loadItems(with: request)
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(with: request, with: predicate)
+        
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadItems()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
     }
 }
 
@@ -95,19 +111,20 @@ extension ListViewController {
 extension ListViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add New Lane Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add", style: .default) { action
             in
+            
             //what happens once the add button is clicked
             
             if let text = textField.text {
                 let newItem = Item(context: self.context)
                 newItem.title = text
                 newItem.done = false
+                newItem.parentCategory = self.selectedCategory
                 self.itemArray.append(newItem)
                 ListManager.emptyCells()
                 self.saveItems()
@@ -134,7 +151,16 @@ extension ListViewController {
         }
     }
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()){
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), with predicate: NSPredicate? = nil){
+        
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+
+        if let additionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+        
         do{
             itemArray = try context.fetch(request)
         }
@@ -150,8 +176,11 @@ extension ListViewController {
         searchBar.delegate = self
         
         //register custom table cells
-        tableView.register(UINib(nibName: K.nibName, bundle: nil), forCellReuseIdentifier: K.cellID)
+        tableView.register(UINib(nibName: K.listNibName, bundle: nil), forCellReuseIdentifier: K.cellID)
         
-
+        //sets nav bar color to cyan
+        navigationController?.navigationBar.backgroundColor = UIColor.systemCyan
+        
+        
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3331AB3C286E2AE9006037A6 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3331AB3B286E2AE9006037A6 /* CategoryViewController.swift */; };
 		33888B2E2837666C0031C2FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33888B2D2837666C0031C2FE /* AppDelegate.swift */; };
 		33888B302837666C0031C2FE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33888B2F2837666C0031C2FE /* SceneDelegate.swift */; };
 		33888B322837666C0031C2FE /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33888B312837666C0031C2FE /* ListViewController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3331AB3B286E2AE9006037A6 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		33888B2A2837666C0031C2FE /* ToDoeyProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoeyProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33888B2D2837666C0031C2FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33888B2F2837666C0031C2FE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 		33888B4A283770EE0031C2FE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3331AB3B286E2AE9006037A6 /* CategoryViewController.swift */,
 				33888B312837666C0031C2FE /* ListViewController.swift */,
 			);
 			path = Controller;
@@ -194,6 +197,7 @@
 				33888B382837666C0031C2FE /* ToDoeyProject.xcdatamodeld in Sources */,
 				33888B50283C7C830031C2FE /* ListManager.swift in Sources */,
 				33888B4D283C740F0031C2FE /* ToDoTableViewCell.swift in Sources */,
+				3331AB3C286E2AE9006037A6 /* CategoryViewController.swift in Sources */,
 				33888B582841898C0031C2FE /* DataModel.xcdatamodeld in Sources */,
 				33888B2E2837666C0031C2FE /* AppDelegate.swift in Sources */,
 				33888B302837666C0031C2FE /* SceneDelegate.swift in Sources */,

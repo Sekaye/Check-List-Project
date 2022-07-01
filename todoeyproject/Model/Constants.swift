@@ -9,6 +9,8 @@ import UIKit
 
 struct K {
     static let cellID = "CellReuseID"
-    static let nibName = "ToDoTableViewCell"
+    static let listNibName = "ToDoTableViewCell"
+    static let categoryNibName = "CategoryTableViewCell"
     static let defaultKey = "alsjdfa;lkdj"
+    static let categoryExitSegue = "goToItems"
 }
