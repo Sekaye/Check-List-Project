@@ -14,6 +14,8 @@ class ListViewController: UITableViewController {
     
     var itemArray: [Item] = []
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     var selectedCategory: ItemCategory? {
         didSet { //called as soon as selectedCategory is given a value
             print("ERROR FLAG 1")
@@ -22,7 +24,6 @@ class ListViewController: UITableViewController {
         }
     }
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let dataFilePath = FileManager
         .default
@@ -51,11 +52,14 @@ extension ListViewController: UISearchBarDelegate {
         
         loadItems(with: request, with: predicate)
         
+        tableView.reloadData()
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text?.count == 0 {
             loadItems()
+            tableView.reloadData()
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
@@ -63,7 +67,7 @@ extension ListViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - List Data Source Control
+// MARK: - Table view list control
 extension ListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellID, for: indexPath)
@@ -162,7 +166,10 @@ extension ListViewController {
         }
         
         do{
+            print("THIS IS ITEMARRAY \(itemArray)")
+            print("THIS IS THE REQUEST\(request)")
             itemArray = try context.fetch(request)
+            print("THIS IS ITEMARRAY2 \(itemArray)")
         }
         catch {
             print("error fetching data from context \(error)")
