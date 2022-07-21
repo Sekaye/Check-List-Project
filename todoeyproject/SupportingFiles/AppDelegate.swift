@@ -9,24 +9,17 @@ import UIKit
 import CoreData
 import RealmSwift
 
- @main
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        print(Realm.Configuration.defaultConfiguration.fileURL)
-        
-        let data = Data()
-        data.name = "sekaye"
-        data.age = 12
+        print("realm data file path: \(Realm.Configuration.defaultConfiguration.fileURL)")
         
         do {
             let realm = try Realm()
-            try realm.write {
-                realm.add(data)
-            }
         } catch {
             print ("error creating Realm \(error)")
         }

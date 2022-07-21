@@ -7,10 +7,13 @@
 
 import UIKit
 import CoreData
+import RealmSwift
 
 class CategoryViewController: UITableViewController {
     
-    var categoryArray: [ItemCategory] = []
+    var categories: Results<Category>?
+    
+    let realm = try! Realm()
     
     let context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -37,10 +40,9 @@ class CategoryViewController: UITableViewController {
             //what happens once the add button is clicked
             
             if let text = textField.text {
-                let newCategory = ItemCategory(context: self.context)
+                let newCategory = Category()
                 newCategory.name = text
-                self.categoryArray.append(newCategory)
-                self.saveCategories()
+                self.save(category: newCategory)
                 self.tableView.reloadData()
             }
         }
@@ -62,28 +64,34 @@ extension CategoryViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellID, for: indexPath)
         as! ToDoTableViewCell
-        let category = categoryArray[indexPath.row]
+        let category = categories?[indexPath.row]
         cell.itemLabel.text = ""
-        cell.itemLabel.text = category.name
+        cell.itemLabel.text = category?.name ?? "No lists added yet"
         return cell
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryArray.count
+        return categories?.count ?? 1
     }
     
+    
+    // MARK: - Category selected
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        tableView.deselectRow(at: indexPath, animated: true)
+        loadCategories()
         performSegue(withIdentifier: K.categoryExitSegue, sender: self)
-        saveCategories()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! ListViewController
-        
         if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categoryArray[indexPath.row]
+            let currentCategory = categories?[indexPath.row]
+            try! realm.write({
+                realm.add(currentCategory!, update: .all)
+                realm.add(currentCategory!.items, update: .all)
+            })
+            destinationVC.selectedCategory = currentCategory
         }
     }
 }
@@ -92,21 +100,19 @@ extension CategoryViewController {
 // MARK: - Data manipulation methods
 extension CategoryViewController {
     
-    func saveCategories() {
+    func save(category: Category) {
         do {
-            try context.save()
+//            try context.save() *for CoreData*
+            try realm.write{   // for Realm
+                realm.add(category)
+            }
         } catch {
             print("error saving context \(error)")
         }
     }
-
-    func loadCategories(with request: NSFetchRequest<ItemCategory> = ItemCategory.fetchRequest()){
-        do{
-            categoryArray = try context.fetch(request)
-        }
-        catch {
-            print("error fetching data from context \(error)")
-        }
+    
+    func loadCategories() {
+        categories = realm.objects(Category.self)
     }
 }
 
