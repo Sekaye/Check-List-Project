@@ -13,7 +13,6 @@ class ListViewController: UITableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     var toDoItems: Results<Item>?
     let realm = try! Realm()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var selectedCategory: Category? {
         didSet { //called as soon as selectedCategory is given a value
             loadItems() //ensures items are loaded only once selectedCategory has a value

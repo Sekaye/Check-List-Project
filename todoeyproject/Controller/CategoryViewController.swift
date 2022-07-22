@@ -9,23 +9,23 @@ import UIKit
 import CoreData
 import RealmSwift
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: SwipeTableViewController {
     
     var categories: Results<Category>?
     
     let realm = try! Realm()
-    
-    let context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.navigationBar.backgroundColor = UIColor.systemCyan
         configure()
+        configureUI()
         loadCategories()
         
     }
     
+
     // MARK: - Add new items
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -53,22 +53,34 @@ class CategoryViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true)
     }
+    
+    // MARK: - Delete Items
+    override func updateModel(at indexPath: IndexPath) {
+        if let categoryForDeletion = categories?[indexPath.row] {
+            do {
+                try realm.write {
+                    realm.delete(categoryForDeletion)
+                }
+            } catch {
+                print("error deleting data \(error)")
+            }
+        }
+    }
+    
 }
 
 
-// MARK: - Table view data source control
-
+// MARK: - Cell control and configuration
 extension CategoryViewController {
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.cellID, for: indexPath)
-        as! ToDoTableViewCell
-        let category = categories?[indexPath.row]
-        cell.itemLabel.text = ""
-        cell.itemLabel.text = category?.name ?? "No lists added yet"
-        return cell
         
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        as! ToDoTableViewCell
+        
+        cell.itemLabel.text = categories?[indexPath.row].name ?? "No Categories Added"
+        
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,12 +109,13 @@ extension CategoryViewController {
 }
 
 
+
 // MARK: - Data manipulation methods
 extension CategoryViewController {
     
     func save(category: Category) {
         do {
-//            try context.save() *for CoreData*
+            //            try context.save() *for CoreData*
             try realm.write{   // for Realm
                 realm.add(category)
             }
@@ -114,6 +127,10 @@ extension CategoryViewController {
     func loadCategories() {
         categories = realm.objects(Category.self)
     }
+    
+    // MARK: - Delete Data From Swipe
+
+    
 }
 
 // MARK: - Utility methods
@@ -121,6 +138,10 @@ extension CategoryViewController {
 extension CategoryViewController {
     func configure() {
         tableView.register(UINib(nibName: K.listNibName, bundle: nil), forCellReuseIdentifier: K.cellID)
+    }
+    
+    func configureUI() {
+        tableView.rowHeight = 60.0
     }
 }
 
