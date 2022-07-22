@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class ListViewController: UITableViewController {
+class ListViewController: SwipeTableViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     var toDoItems: Results<Item>?
@@ -24,6 +24,19 @@ class ListViewController: UITableViewController {
         super.viewDidLoad()
         configuration()
         loadItems()
+    }
+    
+    // MARK: - Delete Items
+    override func updateModel(at indexPath: IndexPath) {
+        if let itemForDeletion = toDoItems?[indexPath.row] {
+            do {
+                try realm.write {
+                    realm.delete(itemForDeletion)
+                }
+            } catch {
+                print("error deleting data \(error)")
+            }
+        }
     }
 }
 
@@ -55,19 +68,12 @@ extension ListViewController: UISearchBarDelegate {
 // MARK: - Table view list control
 extension ListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.cellID, for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         as! ToDoTableViewCell
         if let item = toDoItems?[indexPath.row] {
             cell.itemLabel.text = ""
             cell.itemLabel.text = item.title
             cell.checkImage.isHidden = item.done ? false : true //does the same thing as below
-            //
-            //        if item.done {
-            //            cell.checkImage.isHidden = false
-            //        } else {
-            //            cell.checkImage.isHidden = true
-            //        }
-            
             ListManager.saveCell(cell: cell)
             return cell
         } else {
@@ -162,5 +168,8 @@ extension ListViewController {
         
         //sets nav bar color to cyan
         navigationController?.navigationBar.backgroundColor = UIColor.systemCyan
+        
+        tableView.rowHeight = 60.0
+        
     }
 }
