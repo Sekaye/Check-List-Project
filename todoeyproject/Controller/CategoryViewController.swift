@@ -15,6 +15,8 @@ class CategoryViewController: SwipeTableViewController {
     
     let realm = try! Realm()
     
+    var cellColor: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,7 +27,6 @@ class CategoryViewController: SwipeTableViewController {
         
     }
     
-
     // MARK: - Add new items
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -42,6 +43,18 @@ class CategoryViewController: SwipeTableViewController {
             if let text = textField.text {
                 let newCategory = Category()
                 newCategory.name = text
+                if self.categories != nil {
+                    if self.categories!.count > 0 {
+                        let prevColor = self.categories![self.categories!.count - 1].color
+                        let newColor = self.colorCell(previousColor: UIColor(hexString: prevColor), cellCount: self.categories!.count)
+                        newCategory.color = newColor.toHexString()
+                        print("first")
+                                                      
+                    } else {
+                        newCategory.color = self.colorCellString()
+                        print("second")
+                    }
+                }
                 self.save(category: newCategory)
                 self.tableView.reloadData()
             }
@@ -78,12 +91,15 @@ extension CategoryViewController {
         as! ToDoTableViewCell
         
         cell.itemLabel.text = categories?[indexPath.row].name ?? "No Categories Added"
+        print(categories![indexPath.row].color)
+        cell.backgroundColor = UIColor(hexString: categories![indexPath.row].color)
+        
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories?.count ?? 1
+        return categories!.count
     }
     
     
@@ -137,10 +153,10 @@ extension CategoryViewController {
 extension CategoryViewController {
     func configure() {
         tableView.register(UINib(nibName: K.listNibName, bundle: nil), forCellReuseIdentifier: K.cellID)
+        tableView.separatorStyle = .none
     }
     
     func configureUI() {
-        tableView.rowHeight = 60.0
     }
 }
 

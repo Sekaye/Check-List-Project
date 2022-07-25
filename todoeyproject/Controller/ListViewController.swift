@@ -169,7 +169,6 @@ extension ListViewController {
         //sets nav bar color to cyan
         navigationController?.navigationBar.backgroundColor = UIColor.systemCyan
         
-        tableView.rowHeight = 60.0
         
     }
 }

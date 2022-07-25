@@ -25,6 +25,8 @@
 		33888B50283C7C830031C2FE /* ListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33888B4F283C7C830031C2FE /* ListManager.swift */; };
 		33C44D702889F2BA00F9DADF /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 33C44D6F2889F2BA00F9DADF /* SwipeCellKit */; };
 		33C44D72288A3B5E00F9DADF /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C44D71288A3B5E00F9DADF /* SwipeTableViewController.swift */; };
+		33CD1CA9288A528C00251DF7 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = 33CD1CA8288A528C00251DF7 /* DynamicColor */; };
+		33CD1CAB288B590200251DF7 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD1CAA288B590200251DF7 /* DynamicColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,7 @@
 		33888B4C283C740F0031C2FE /* ToDoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoTableViewCell.xib; sourceTree = "<group>"; };
 		33888B4F283C7C830031C2FE /* ListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListManager.swift; sourceTree = "<group>"; };
 		33C44D71288A3B5E00F9DADF /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
+		33CD1CAA288B590200251DF7 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33CD1CA9288A528C00251DF7 /* DynamicColor in Frameworks */,
 				33882B1D28812F4C00544939 /* RealmSwift in Frameworks */,
 				33C44D702889F2BA00F9DADF /* SwipeCellKit in Frameworks */,
 				33882B1B28812F4C00544939 /* Realm in Frameworks */,
@@ -105,6 +109,7 @@
 			children = (
 				33888B44283766C20031C2FE /* Constants.swift */,
 				33888B4F283C7C830031C2FE /* ListManager.swift */,
+				33CD1CAA288B590200251DF7 /* DynamicColor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				33882B1A28812F4C00544939 /* Realm */,
 				33882B1C28812F4C00544939 /* RealmSwift */,
 				33C44D6F2889F2BA00F9DADF /* SwipeCellKit */,
+				33CD1CA8288A528C00251DF7 /* DynamicColor */,
 			);
 			productName = ToDoeyProject;
 			productReference = 33888B2A2837666C0031C2FE /* ToDoeyProject.app */;
@@ -192,6 +198,7 @@
 			packageReferences = (
 				33882B1928812F4C00544939 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				33C44D6E2889F2BA00F9DADF /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
+				33CD1CA7288A528C00251DF7 /* XCRemoteSwiftPackageReference "DynamicColor" */,
 			);
 			productRefGroup = 33888B2B2837666C0031C2FE /* Products */;
 			projectDirPath = "";
@@ -222,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33882B22288213B500544939 /* Item.swift in Sources */,
+				33CD1CAB288B590200251DF7 /* DynamicColor.swift in Sources */,
 				33888B45283766C20031C2FE /* Constants.swift in Sources */,
 				33C44D72288A3B5E00F9DADF /* SwipeTableViewController.swift in Sources */,
 				33888B322837666C0031C2FE /* ListViewController.swift in Sources */,
@@ -471,6 +479,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		33CD1CA7288A528C00251DF7 /* XCRemoteSwiftPackageReference "DynamicColor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yannickl/DynamicColor.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -488,6 +504,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 33C44D6E2889F2BA00F9DADF /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
 			productName = SwipeCellKit;
+		};
+		33CD1CA8288A528C00251DF7 /* DynamicColor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33CD1CA7288A528C00251DF7 /* XCRemoteSwiftPackageReference "DynamicColor" */;
+			productName = DynamicColor;
 		};
 /* End XCSwiftPackageProductDependency section */
 

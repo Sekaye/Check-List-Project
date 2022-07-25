@@ -12,6 +12,7 @@ class Category: Object {
     @Persisted var name: String = ""
     @Persisted var categoryID = UUID().uuidString
     @Persisted var items = List<Item>()
+    @Persisted var color: String = ""
     override static func primaryKey() -> String? {
         return "categoryID"
     }

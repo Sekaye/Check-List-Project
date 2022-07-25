@@ -7,6 +7,7 @@
 
 import UIKit
 import SwipeCellKit
+import DynamicColor
 
 class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegate {
 
@@ -35,12 +36,9 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
         return options
     }
     
-    
     func updateModel(at indexPath: IndexPath) {
         //Override in child class to update model data upon deletion
     }
-    
-    
 }
 
 // MARK: - Table view data source methods
@@ -62,5 +60,33 @@ extension SwipeTableViewController {
     
     func configureSwipeView() {
         tableView.register(UINib(nibName: K.listNibName, bundle: nil), forCellReuseIdentifier: "Cell")
+        tableView.rowHeight = 60.0
+    }
+    
+    func colorCell(previousColor: UIColor, cellCount: Int) -> UIColor {
+        var changeAmount = 0.0
+        var currentColor = previousColor.darkened(amount: 0.1) //.6 is max for visibility
+        currentColor = currentColor.saturated(amount: 0.1)
+        return currentColor
+    }
+    
+    func colorCellString() -> String {
+        var baseColors: [String] = []
+        
+        let color1 = UIColor(hexString: "#6110ef").lighter(amount: 0.4).desaturated(amount: 0.1).toHexString()
+        let color2 = UIColor(hexString: "#c610ef").lighter(amount: 0.4).desaturated(amount: 0.1).toHexString()
+        let color3 = UIColor(hexString: "#ef1073").lighter(amount: 0.4).desaturated(amount: 0.1).toHexString()
+        let color4 = UIColor(hexString: "#fa8705").lighter(amount: 0.4).desaturated(amount: 0.1).toHexString()
+        let color5 = UIColor(hexString: "#2096df").lighter(amount: 0.4).desaturated(amount: 0.1).toHexString()
+        let color6 = UIColor(hexString: "#1c1ae5").lighter(amount: 0.4).desaturated(amount: 0.1).toHexString()
+        
+        baseColors.append(color1)
+        baseColors.append(color2)
+        baseColors.append(color3)
+        baseColors.append(color4)
+        baseColors.append(color5)
+        baseColors.append(color6)
+        
+        return baseColors.randomElement()!
     }
 }
