@@ -63,11 +63,20 @@ extension SwipeTableViewController {
         tableView.rowHeight = 60.0
     }
     
-    func colorCell(previousColor: UIColor, cellCount: Int) -> UIColor {
-        var changeAmount = 0.0
-        var currentColor = previousColor.darkened(amount: 0.1) //.6 is max for visibility
-        currentColor = currentColor.saturated(amount: 0.1)
-        return currentColor
+//    func colorCell(previousColor: UIColor, cellCount: Int) -> UIColor {
+//        var changeAmount = 0.0
+//        var currentColor = previousColor.darkened(amount: 0.1) //.6 is max for visibility
+//        currentColor = currentColor.saturated(amount: 0.1)
+//        return currentColor
+//    }
+    
+    func colorCell(cellCount: Int, baseColor: UIColor) ->
+    UIColor{
+        let colorAmt = 0.6 * (1.0 / Float(cellCount + 1))
+        print(Double(cellCount))
+        print("color amount = \(colorAmt)")
+        let newColor = baseColor.darkened(amount: CGFloat(colorAmt))
+        return newColor
     }
     
     func colorCellString() -> String {

@@ -24,6 +24,9 @@ class CategoryViewController: SwipeTableViewController {
         configure()
         configureUI()
         loadCategories()
+        print("indexPath \(tableView.cellForRow(at: IndexPath(row: 0, section: 0)))")
+        print(tableView.cellForRow(at: IndexPath(item: 0, section: 0)))
+
         
     }
     
@@ -43,18 +46,19 @@ class CategoryViewController: SwipeTableViewController {
             if let text = textField.text {
                 let newCategory = Category()
                 newCategory.name = text
-                if self.categories != nil {
-                    if self.categories!.count > 0 {
-                        let prevColor = self.categories![self.categories!.count - 1].color
-                        let newColor = self.colorCell(previousColor: UIColor(hexString: prevColor), cellCount: self.categories!.count)
-                        newCategory.color = newColor.toHexString()
-                        print("first")
-                                                      
-                    } else {
-                        newCategory.color = self.colorCellString()
-                        print("second")
-                    }
-                }
+//                if self.categories != nil {
+////                    if self.categories!.count > 0 {
+////                        let prevColor = self.categories![self.categories!.count - 1].color
+////                        let newColor = self.colorCell(previousColor: UIColor(hexString: prevColor), cellCount: self.categories!.count)
+////                        newCategory.color = newColor.toHexString()
+////                        print("first")
+////
+////                    } else {
+////                        newCategory.color = self.colorCellString()
+////                        print("second")
+////                    }
+//                }
+                newCategory.color = self.colorCellString()
                 self.save(category: newCategory)
                 self.tableView.reloadData()
             }
@@ -92,10 +96,16 @@ extension CategoryViewController {
         
         cell.itemLabel.text = categories?[indexPath.row].name ?? "No Categories Added"
         print(categories![indexPath.row].color)
-        cell.backgroundColor = UIColor(hexString: categories![indexPath.row].color)
-        
-        
-        return cell
+        if categories!.count < 2 {
+//            cell.backgroundColor = UIColor(hexString: categories![indexPath.row].color)
+            print("first")
+            return cell
+        } else {
+            print("second")
+            cell.backgroundColor = colorCell(cellCount: indexPath.row, baseColor: UIColor(hexString: self.categories![0].color))
+            
+            return cell
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
